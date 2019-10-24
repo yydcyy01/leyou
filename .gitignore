@@ -1,0 +1,6 @@
+# Project exclude paths
+/leyou-common/target/
+/leyou-gateway/target/
+/leyou-item/leyou-item-interface/target/
+/leyou-item/leyou-item-service/target/
+/leyou-registry/target/
