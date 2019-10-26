@@ -5,12 +5,12 @@ import com.leyou.item.pojo.Brand;
 import com.leyou.item.service.IBrandService;
 import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author YYDCYY
@@ -47,5 +47,17 @@ public class BrandController {
 
 
         return ResponseEntity.ok(result);
+    }
+
+    /**
+     * 对品牌进行新增
+     * @param brand
+     * @param cids
+     * @return
+     */
+    @PostMapping
+    public ResponseEntity<Void> saveBrand(Brand brand, @RequestParam("cids") List<Long> cids) {
+        brandService.saveBrand(brand, cids);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
