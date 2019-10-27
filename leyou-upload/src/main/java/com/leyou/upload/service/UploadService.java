@@ -50,7 +50,7 @@ public class UploadService {
             }
 
             // 保存到服务器
-            file.transferTo(new File("/Users/yuyang/Downloads/测试" + originalFilename));
+            file.transferTo(new File("/Users/yuyang/Downloads/测试/" + originalFilename));
 
             // 生成url地址，返回
             return "http://image.leyou.com/" + originalFilename;
