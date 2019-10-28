@@ -5,19 +5,22 @@ spring:
     name: upload-service
   servlet:
     multipart:
-      max-file-size: 5MB  # 限制文件上传的大小
+      max-file-size: 5MB # 限制文件上传的大小
 eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:10086/eureka
-  instance:
-    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
-    lease-expiration-duration-in-seconds: 15  # 15秒不发送就过期
+    instance:
+      lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+      lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+      prefer-ip-address: true
+      ip-address: 127.0.0.1
+      instance-id: ${spring.application.name}:${server.port}
 fdfs:
-  so-timeout: 1501 # 超时时间
-  connect-timeout: 601 # 连接超时时间
-  thumb-image: # 缩略图
-    width: 60
-    height: 60
-  tracker-list: # tracker地址：你的虚拟机服务器地址+端口（默认是22122）
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image:  #上传原图和缩略图，可返回缩略图url给前端
+    width: 250
+    height: 90
+  tracker-list:  #tracker地址
     - 10.211.55.4:22122
