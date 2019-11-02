@@ -68,4 +68,8 @@ public class BrandServiceImpl implements IBrandService {
     }
 
 
+    public List<Brand> queryBrandsByCid(Long cid) {
+
+        return this.brandMapper.selectBrandByCid(cid);
+    }
 }

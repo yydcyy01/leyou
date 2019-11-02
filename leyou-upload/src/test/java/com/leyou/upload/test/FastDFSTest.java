@@ -33,6 +33,7 @@ public class FastDFSTest {
         // 带分组的路径
         System.out.println(storePath.getFullPath());
         // 不带分组的路径
+        System.out.print("不带分组的路径 :  ");
         System.out.println(storePath.getPath());
     }
 

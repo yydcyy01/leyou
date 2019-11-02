@@ -1,5 +1,7 @@
 package com.leyou.item.controller;
 
+import com.leyou.common.pojo.PageResult;
+import com.leyou.item.bo.SpuBo;
 import com.leyou.item.service.impl.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,15 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @GetMapping("spu/page")
+    /**
+     *
+     * @param key
+     * @param saleable
+     * @param page
+     * @param rows
+     * @return
+     */
+    @GetMapping("spu/page")/*参数列表 : key=&saleable=true&page=1&rows=5 格式传来的*/
     public ResponseEntity<PageResult<SpuBo>> querySpuBoByPage(
             @RequestParam(value = "key", required = false)String key,
             @RequestParam(value = "saleable", required = false)Boolean saleable,
@@ -26,8 +36,11 @@ public class GoodsController {
     ){
         PageResult<SpuBo> pageResult = this.goodsService.querySpuBoByPage(key, saleable, page, rows);
         if(CollectionUtils.isEmpty(pageResult.getItems())){
+            //404
             return ResponseEntity.notFound().build();
+
         }
+        //200
         return ResponseEntity.ok(pageResult);
     }
 

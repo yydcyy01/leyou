@@ -39,4 +39,19 @@ public class SpecificationService {
         param.setGroupId(gid);
         return this.paramMapper.select(param);
     }
+
+    /**
+     * 根据gid查询规格参数
+     * 如果param中有属性为null，则不会把属性作为查询条件，因此该方法具备通用性，即可根据gid查询，也可根据cid查询。
+     * @param gid
+     * @return
+     */
+    public List<SpecParam> queryParams(Long gid, Long cid, Boolean generic, Boolean searching) {
+        SpecParam record = new SpecParam();
+        record.setGroupId(gid);
+        record.setCid(cid);
+        record.setGeneric(generic);
+        record.setSearching(searching);
+        return this.paramMapper.select(record);
+    }
 }

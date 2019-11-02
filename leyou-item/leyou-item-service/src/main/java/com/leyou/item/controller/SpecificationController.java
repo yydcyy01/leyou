@@ -44,4 +44,29 @@ public class SpecificationController {
         }
         return ResponseEntity.ok(params);
     }
+
+    /**
+     * 原来的根据 gid（规格组id)查询规格参数的接口上，添加一个参数：cid，即商品分类id
+     * 等一下， 考虑到以后可能还会根据是否搜索、是否为通用属性等条件过滤，我们多添加几个过滤条件：
+     * @param gid
+     * @param cid
+     * @param generic
+     * @param searching
+     * @return
+     */
+    @GetMapping("params")
+    public ResponseEntity<List<SpecParam>> queryParams(
+            @RequestParam(value = "gid", required = false)Long gid,
+            @RequestParam(value = "cid", required = false)Long cid,
+            @RequestParam(value = "generic", required = false)Boolean generic,
+            @RequestParam(value = "searching", required = false)Boolean searching
+    ){
+
+        List<SpecParam> params = this.specificationService.queryParams(gid, cid, generic, searching);
+
+        if (CollectionUtils.isEmpty(params)){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(params);
+    }
 }

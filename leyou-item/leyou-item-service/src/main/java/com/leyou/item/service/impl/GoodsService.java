@@ -3,6 +3,7 @@ package com.leyou.item.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.pojo.PageResult;
+import com.leyou.item.bo.SpuBo;
 import com.leyou.item.mapper.BrandMapper;
 import com.leyou.item.mapper.SpuMapper;
 import com.leyou.item.pojo.Spu;
@@ -26,11 +27,19 @@ public class GoodsService {
     private SpuMapper spuMapper;
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryServiceImpl categoryService;
 
     @Autowired
     private BrandMapper brandMapper;
 
+    /**
+     * 分页查询 SPU
+     * @param key
+     * @param saleable
+     * @param page
+     * @param rows
+     * @return
+     */
     public PageResult<SpuBo> querySpuBoByPage(String key, Boolean saleable, Integer page, Integer rows) {
 
         Example example = new Example(Spu.class);
@@ -46,7 +55,7 @@ public class GoodsService {
         // 分页条件
         PageHelper.startPage(page, rows);
 
-        // 执行查询
+        // 执行查询, 获取 SPU 集合
         List<Spu> spus = this.spuMapper.selectByExample(example);
         PageInfo<Spu> pageInfo = new PageInfo<>(spus);
 

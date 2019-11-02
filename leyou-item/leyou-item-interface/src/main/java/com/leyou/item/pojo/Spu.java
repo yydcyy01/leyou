@@ -8,6 +8,9 @@ import java.util.Date;
 
 /**
  * SPU , 商品查询类
+ *
+ * 这个类是基本类, 不可以随便改.[ 进行扩展 ]
+    扩展 ? 自己写类,继承即可.
  */
 @Table(name = "tb_spu")
 public class Spu {
