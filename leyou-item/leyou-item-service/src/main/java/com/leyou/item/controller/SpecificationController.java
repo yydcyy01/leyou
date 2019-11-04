@@ -33,17 +33,19 @@ public class SpecificationController {
 
     /**
      * 根据条件查询规格参数
+     *
+     * 原先的 queryParams 方法. 后来扩增了. 新方法在下面
      * @param gid
      * @return
      */
-    @GetMapping("params")
+   /* @GetMapping("params")
     public ResponseEntity<List<SpecParam>> queryParams(@RequestParam("gid")Long gid){
         List<SpecParam>  params = this.specificationService.queryParams(gid);
         if (CollectionUtils.isEmpty(params)){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(params);
-    }
+    }*/
 
     /**
      * 原来的根据 gid（规格组id)查询规格参数的接口上，添加一个参数：cid，即商品分类id
