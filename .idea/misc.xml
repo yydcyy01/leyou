@@ -6,7 +6,6 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../leyou-gateway/pom.xml" />
-        <option value="$PROJECT_DIR$/../yydcyy-elasticsearch/pom.xml" />
       </list>
     </option>
   </component>

@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="leyou-item-interface" />
-        <module name="yydcyy-elasticsearch" />
         <module name="leyou-search" />
         <module name="leyou-gateway" />
         <module name="leyou-upload" />
@@ -17,6 +16,9 @@
         <module name="leyougateway" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="yydcyy-elasticsearch" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
