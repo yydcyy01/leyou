@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="leyou-item-interface" />
         <module name="yydcyy-elasticsearch" />
+        <module name="leyou-search" />
         <module name="leyou-gateway" />
         <module name="leyou-upload" />
         <module name="leyou-common" />
@@ -26,6 +27,7 @@
       <module name="leyou-item-interface" options="-parameters" />
       <module name="leyou-item-service" options="-parameters" />
       <module name="leyou-registry" options="-parameters" />
+      <module name="leyou-search" options="-parameters" />
       <module name="leyou-upload" options="-parameters" />
       <module name="leyougateway" options="-parameters" />
       <module name="yydcyy-elasticsearch" options="-parameters" />

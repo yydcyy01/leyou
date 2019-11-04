@@ -30,4 +30,6 @@ public class CategoryServiceImpl implements ICategoryService {
         return names;
         // return list.stream().map(category -> category.getName()).collect(Collectors.toList());
     }
+
+
 }
