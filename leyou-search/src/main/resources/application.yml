@@ -8,9 +8,11 @@ spring:
       cluster-name: elasticsearch
       cluster-nodes: 10.211.55.4:9300
 eureka:
+  # 默认地址
   client:
     service-url:
       defaultZone: http://localhost:10086/eureka
+  # 实例心跳时间
   instance:
-    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
-    lease-expiration-duration-in-seconds: 15 # 10秒不发送就过期
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
