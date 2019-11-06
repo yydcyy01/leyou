@@ -10,10 +10,10 @@
         <module name="leyougateway" />
         <module name="leyou-search" />
         <module name="leyou-gateway" />
-        <module name="leyou-common" />
+        <module name="leyou-upload" />
         <module name="leyou-registry" />
         <module name="leyou-item-service" />
-        <module name="leyou-upload" />
+        <module name="leyou-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

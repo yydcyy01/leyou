@@ -15,4 +15,4 @@ eureka:
   # 实例心跳时间
   instance:
     lease-expiration-duration-in-seconds: 15
-    lease-renewal-interval-in-seconds: 5看
+    lease-renewal-interval-in-seconds: 5
