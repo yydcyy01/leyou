@@ -72,10 +72,10 @@ public class SearchService {
         });
 
         // 查询出所有的搜索规格参数
-        List<SpecParam> params = this.specificationClient.queryParams(null, spu.getCid3(), null, true);
+        List<SpecParam> params = specificationClient.queryParams(null, spu.getCid3(), null, true);
         // 查询spuDetail。获取规格参数值
         //SpuDetail spuDetail = this.goodsClient.querySpuDetailBySpuId(spu.getId());
-        SpuDetail spuDetail = this.goodsClient.querySpuDetailById(spu.getId());
+        SpuDetail spuDetail = goodsClient.querySpuDetailById(spu.getId());
         // 获取通用的规格参数
         Map<Long, Object> genericSpecMap = MAPPER.readValue(spuDetail.getGenericSpec(), new TypeReference<Map<Long, Object>>() {
         });
@@ -186,7 +186,7 @@ public class SearchService {
         Page<Goods> pageInfo = this.goodsRepository.search(queryBuilder.build());
 
         // 封装结果并返回
-        return new PageResult<Goods>(pageInfo.getTotalElements(), pageInfo.getTotalPages(), pageInfo.getContent());
+        return new PageResult<>(pageInfo.getTotalElements(), pageInfo.getTotalPages(), pageInfo.getContent());
     }
 
 }

@@ -10,7 +10,8 @@ eureka:
     registry-fetch-interval-seconds: 5
 zuul:
   prefix: /api
+  retryable: true # 开启重试
   routes:
-    item-service: /item/** # 路由到商品的微服务
+    item-service: /item/**   # 路由到商品的微服务
     search-service: /search/**
   ignored-services: upload-service
