@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author YYDCYY
  * @create 2019-10-23
+ *
+ * 商标增删改 4 种查方式
+ *  2019年11月14日23:45:50
  */
 @Service("brandService")
 public class BrandServiceImpl implements IBrandService {
@@ -50,6 +54,30 @@ public class BrandServiceImpl implements IBrandService {
         return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
     }
 
+
+    /*public List<Brand> queryBrandsByCid(Long cid) {
+
+        return this.brandMapper.selectBrandByCid(cid);
+    }*/
+
+    public List<Brand> queryBrandByCid(Long cid) {
+        List<Long> bids=brandMapper.selectBidByCid(cid);
+        List<Brand> brands = new ArrayList<>();
+        bids.forEach(bid->
+                brands.add(brandMapper.selectByPrimaryKey(bid))
+        );
+        return brands;
+    }
+    public String queryBrandNameByBid(Long brandId) {
+        Brand brand = brandMapper.selectByPrimaryKey(brandId);
+        return brand.getName();
+    }
+
+    public List<Brand> queryBrandByIds(List<Long> ids) {
+
+        return  brandMapper.selectByIdList(ids);
+    }
+
     /**
      * 新增品牌，还要维护品牌和商品分类的中间表。
      * @param brand
@@ -72,9 +100,20 @@ public class BrandServiceImpl implements IBrandService {
         }*/
     }
 
+    @Transactional
+    public void updateBrand(Brand brand, List<Long> cids) {
+        brandMapper.updateByPrimaryKey(brand);
+        brandMapper.deleteCidByBid(brand.getId());
+        for (Long cid : cids) {
+            brandMapper.insertCategoryBrand(cid,brand.getId());
+        }
+    }
 
-    public List<Brand> queryBrandsByCid(Long cid) {
-
-        return this.brandMapper.selectBrandByCid(cid);
+    @Transactional
+    public void deleteBrandByBid(Long bid) {
+        Brand brand = new Brand();
+        brand.setId(bid);
+        brandMapper.delete(brand);
+        brandMapper.deleteCidByBid(bid);
     }
 }
