@@ -189,4 +189,14 @@ public class SearchService {
         return new PageResult<>(pageInfo.getTotalElements(), pageInfo.getTotalPages(), pageInfo.getContent());
     }
 
+    public void createIndex(Long id){
+        Spu spu = goodsClient.querySpuDetailById(id);
+
+    }
+
+    public void save(Long id){
+        Spu spu = this.goodsClient.querySkuBySpuId(id);
+        buildGoods(spu);
+    }
+
 }

@@ -7,6 +7,12 @@ spring:
     elasticsearch:
       cluster-name: elasticsearch
       cluster-nodes: 10.211.55.4:9300
+  rabbitmq:
+    host: 10.211.55.4
+    username: leyou
+    password: leyou
+    virtual-host: /leyou
+    # leyou-search 中只是接收消息而不发送，所以不用配置template相关内容。
 eureka:
   # 默认地址
   client:

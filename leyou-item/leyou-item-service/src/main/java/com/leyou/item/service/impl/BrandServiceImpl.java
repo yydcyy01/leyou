@@ -65,6 +65,11 @@ public class BrandServiceImpl implements IBrandService {
         cids.forEach(cid -> {
             this.brandMapper.insertCategoryAndBrand(cid, brand.getId());
         });
+        // 两种写法一样
+        /*for (Long cid : cids){
+            Long bid = brand.getId();
+            this.brandMapper.insertCategoryAndBrand(cid, bid);
+        }*/
     }
 
 

@@ -74,4 +74,36 @@ public class BrandController {
         }
         return ResponseEntity.ok(brands);
     }
+
+    /**
+     * 对品牌进行修改
+     * @param brand
+     * @param cids
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<Void> updateBrand(Brand brand, @RequestParam("cids") List<Long> cids) {
+        brandService.updateBrand(brand, cids);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 对品牌进行删除
+     * @param bid
+     * @return
+     */
+    @DeleteMapping("{bid}")
+    public ResponseEntity<Void> deleteBrandByBid(@PathVariable("bid")Long bid){
+        brandService.deleteBrandByBid(bid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("list")
+    public ResponseEntity<List<Brand>> queryBrandsByIds(@RequestParam("ids") List<Long> ids){
+        List<Brand>brands=brandService.queryBrandsByIds(ids);
+        if(brands==null||brands.size()==0){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(brands);
+    }
 }

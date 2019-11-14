@@ -18,15 +18,31 @@ public class GoodsListener {
     @Autowired
     private SearchService searchService;
 
-    public void listenCreate(Long id){
-        if (id == null)
-            return ;
 
-        searchService
+    /**
+     * 处理 create 消息
+     *
+     * @param id
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "leyou.item.create.queue", durable = "true"),
+            exchange = @Exchange(value = "leyou.item.exchange", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
+            key = {"item.insert", "item.update"}
+    ))
+    public void create(Long id){
+        if (id == null)
+            return;
+
+        searchService.createIndex(id);
     }
 
+    /**
+     * 处理 insert , update 消息
+     *
+     * @param id
+     */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "leyou.item.delete.queue", durable = "true"),
+            value = @Queue(value = "leyou.item.save.queue", durable = "true"),
             exchange = @Exchange(value = "leyou.item.exchange", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
             key = {"item.insert", "item.update"}
     ))
@@ -37,6 +53,10 @@ public class GoodsListener {
         searchService.saveIndex(id);
     }
 
+    /**
+     * 处理delete的消息
+     * @param id
+     */
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "leyou.item.delete.queue", durable = "true"),
             exchange = @Exchange(value = "leyou.item.exchange", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
