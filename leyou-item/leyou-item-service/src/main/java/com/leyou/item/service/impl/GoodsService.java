@@ -11,6 +11,10 @@ import com.leyou.item.pojo.SpuDetail;
 import com.leyou.item.pojo.Stock;
 import com.netflix.discovery.converters.Auto;
 import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.Logger;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,8 +49,14 @@ public class GoodsService {
     @Autowired
     private SpuDetailMapper spuDetailMapper;
 
+    @Autowired
     private SkuMapper skuMapper;
 
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    @Autowired
+    private Logger logger;
     /**
      * 分页查询 SPU
      * @param key
@@ -111,6 +121,9 @@ public class GoodsService {
         this.spuDetailMapper.insertSelective(spuDetail);
 
         saveSkuAndStock(spuBo);
+
+        //消息队列 发送消息.
+        sendMessage(spuBo.getId(), "insert");
     }
     /**
      * 新增商品
@@ -147,6 +160,8 @@ public class GoodsService {
 
         // 更新spu详情
         this.spuDetailMapper.updateByPrimaryKeySelective(spuBo.getSpuDetail());
+
+        sendMessage(spuBo.getId(), "update");
     }
 
     private void saveSkuAndStock(SpuBo spuBo) {
@@ -192,5 +207,14 @@ public class GoodsService {
             s.setStock(stock.getStock());
         });
         return skus;
+    }
+
+    private void sendMessage(Long id, String type){
+        // 发送消息
+        try {
+            this.amqpTemplate.convertAndSend("item." + type, id);
+        } catch (Exception e) {
+            logger.error("{}商品消息发送异常，商品id：{}", type, id, e);
+        }
     }
 }
