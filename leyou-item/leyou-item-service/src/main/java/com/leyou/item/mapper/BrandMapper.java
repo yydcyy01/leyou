@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import tk.mybatis.mapper.additional.idlist.SelectByIdListMapper;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author YYDCYY
  * @create 2019-10-23
  */
-public interface BrandMapper extends Mapper<Brand> {
+public interface BrandMapper extends Mapper<Brand>, SelectByIdListMapper<Brand,Long>  {
     /**
      * 新增商品分类和品牌中间表数据
      * @param cid 商品分类id

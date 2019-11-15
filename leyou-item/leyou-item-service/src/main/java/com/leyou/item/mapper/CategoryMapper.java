@@ -13,5 +13,6 @@ import java.util.List;
  * @create 2019-10-22
  */
 public interface CategoryMapper extends Mapper<Category> , SelectByIdListMapper<Category, Long> {
-
+    @Select("select category_id from tb_category_brand where brand_id=#{bid}")
+    List<Long> selectCidByBid(@Param("bid") Long bid);
 }

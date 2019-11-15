@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,6 +17,10 @@ import java.util.List;
 /**
  * @author YYDCYY
  * @create 2019-10-22
+ * 提供分类的增删改查接口
+ * 操作的表
+ * tb_category
+ * tb_category_brand
  */
 @Controller
 @RequestMapping("category")
@@ -77,6 +82,20 @@ public class CategoryController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(names);
+    }
+
+    /**
+     * 根据品牌id查询分类
+     * @param bid
+     * @return
+     */
+    @GetMapping("bid/{bid}")
+    public ResponseEntity<List<Category>> queryCategoryByBid(@PathVariable("bid")Long bid){
+        List<Category> categories=categoryService.queryCategoryByBid(bid);
+        if(categories.size()==0||categories==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(categories);
     }
 
 }

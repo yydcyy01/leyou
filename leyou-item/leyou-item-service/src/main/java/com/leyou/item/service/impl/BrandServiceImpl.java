@@ -55,11 +55,12 @@ public class BrandServiceImpl implements IBrandService {
     }
 
 
-    /*public List<Brand> queryBrandsByCid(Long cid) {
+    public List<Brand> queryBrandsByCid(Long cid) {
 
         return this.brandMapper.selectBrandByCid(cid);
-    }*/
+    }
 
+    @Override
     public List<Brand> queryBrandByCid(Long cid) {
         List<Long> bids=brandMapper.selectBidByCid(cid);
         List<Brand> brands = new ArrayList<>();
@@ -68,11 +69,13 @@ public class BrandServiceImpl implements IBrandService {
         );
         return brands;
     }
+    @Override
     public String queryBrandNameByBid(Long brandId) {
         Brand brand = brandMapper.selectByPrimaryKey(brandId);
         return brand.getName();
     }
 
+    @Override
     public List<Brand> queryBrandByIds(List<Long> ids) {
 
         return  brandMapper.selectByIdList(ids);
@@ -83,6 +86,7 @@ public class BrandServiceImpl implements IBrandService {
      * @param brand
      * @param cids
      */
+    @Override
     @Transactional
     public void saveBrand(Brand brand, List<Long> cids) {
 
@@ -100,15 +104,17 @@ public class BrandServiceImpl implements IBrandService {
         }*/
     }
 
+    @Override
     @Transactional
     public void updateBrand(Brand brand, List<Long> cids) {
         brandMapper.updateByPrimaryKey(brand);
         brandMapper.deleteCidByBid(brand.getId());
         for (Long cid : cids) {
-            brandMapper.insertCategoryBrand(cid,brand.getId());
+            brandMapper.insertCategoryAndBrand(cid,brand.getId());
         }
     }
 
+    @Override
     @Transactional
     public void deleteBrandByBid(Long bid) {
         Brand brand = new Brand();

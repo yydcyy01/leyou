@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,29 @@ public class BrandController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("list")
+    public ResponseEntity<List<Brand>> queryBrandsByIds(@RequestParam("ids") List<Long> ids){
+        List<Brand>brands=brandService.queryBrandByIds(ids);
+        if(brands==null||brands.size()==0){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(brands);
+    }
+
+    /**
+     * 商品管理/ 商品列表 / 新增管理页面
+     * @param cid
+     * @return
+     */
+    @GetMapping("cid/{cid}")
+    public ResponseEntity<List<Brand>> queryBrandsByCid(@PathVariable("cid")Long cid){
+        List<Brand> brands = this.brandService.queryBrandByCid(cid);
+        if (CollectionUtils.isEmpty(brands)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(brands);
+    }
+
     /**
      * 对品牌进行新增
      * @param brand
@@ -59,20 +83,6 @@ public class BrandController {
     public ResponseEntity<Void> saveBrand(Brand brand, @RequestParam("cids") List<Long> cids) {
         brandService.saveBrand(brand, cids);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    /**
-     * 商品管理/ 商品列表 / 新增管理页面
-     * @param cid
-     * @return
-     */
-    @GetMapping("cid/{cid}")
-    public ResponseEntity<List<Brand>> queryBrandsByCid(@PathVariable("cid")Long cid){
-        List<Brand> brands = this.brandService.queryBrandsByCid(cid);
-        if (CollectionUtils.isEmpty(brands)) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(brands);
     }
 
     /**
@@ -97,13 +107,5 @@ public class BrandController {
         brandService.deleteBrandByBid(bid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @GetMapping("list")
-    public ResponseEntity<List<Brand>> queryBrandsByIds(@RequestParam("ids") List<Long> ids){
-        List<Brand>brands=brandService.queryBrandsByIds(ids);
-        if(brands==null||brands.size()==0){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(brands);
-    }
 }
+

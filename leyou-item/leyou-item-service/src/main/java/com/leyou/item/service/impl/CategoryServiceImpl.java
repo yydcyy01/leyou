@@ -21,6 +21,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryMapper.select(category);
     }
 
+    @Override
     public List<String> queryNamesByIds(List<Long> ids) {
         List<Category> list = this.categoryMapper.selectByIdList(ids);
         List<String> names = new ArrayList<>();
@@ -31,5 +32,15 @@ public class CategoryServiceImpl implements ICategoryService {
         // return list.stream().map(category -> category.getName()).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Category> queryCategoryByBid(Long bid) {
+        List<Long> cids=categoryMapper.selectCidByBid(bid);
+        List<Category> categories = new ArrayList<>();
+        for (Long cid : cids) {
+            Category category = categoryMapper.selectByPrimaryKey(cid);
+            categories.add(category);
+        }
+        return categories;
+    }
 
 }

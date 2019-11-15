@@ -9,9 +9,11 @@ import com.leyou.item.pojo.Sku;
 import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuDetail;
 import com.leyou.item.pojo.Stock;
+import com.leyou.item.service.IGoodsService;
 import com.netflix.discovery.converters.Auto;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
@@ -32,7 +34,7 @@ import java.util.stream.Collectors;
  * 所有商品相关的业务（包括SPU和SKU）放到一个业务下：GoodsService。
  */
 @Service
-public class GoodsService {
+public class GoodsService implements IGoodsService {
 
     @Autowired
     private SpuMapper spuMapper;
@@ -55,8 +57,8 @@ public class GoodsService {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
-    @Autowired
-    private Logger logger;
+   // private Logger logger = LoggerFactory.getLogger(GoodsServiceImpl.class);
+
     /**
      * 分页查询 SPU
      * @param key
@@ -65,6 +67,7 @@ public class GoodsService {
      * @param rows
      * @return
      */
+    @Override
     public PageResult<SpuBo> querySpuBoByPage(String key, Boolean saleable, Integer page, Integer rows) {
 
         Example example = new Example(Spu.class);
@@ -104,6 +107,7 @@ public class GoodsService {
     }
 
 
+    @Override
     @Transactional
     public void saveGoods(SpuBo spuBo) {
         // 新增spu
@@ -130,6 +134,7 @@ public class GoodsService {
      *
      * 和 update 合并了. 在 update 中判断: 若不存在, 直接删除
      */
+    @Override
     @Transactional
     public void update(SpuBo spuBo) {
         // 查询以前sku
@@ -185,6 +190,7 @@ public class GoodsService {
      * @param spuId
      * @return
      */
+    @Override
     public SpuDetail querySpuDetailBySpuId(Long spuId) {
 
         return this.spuDetailMapper.selectByPrimaryKey(spuId);
@@ -197,6 +203,7 @@ public class GoodsService {
      * @param spuId
      * @return
      */
+    @Override
     public List<Sku> querySkusBySpuId(Long spuId) {
         System.out.println("GoodsService / querySKusBySpuId / spuId : " + spuId);
         Sku sku = new Sku();
@@ -214,7 +221,7 @@ public class GoodsService {
         try {
             this.amqpTemplate.convertAndSend("item." + type, id);
         } catch (Exception e) {
-            logger.error("{}商品消息发送异常，商品id：{}", type, id, e);
+            //logger.error("{}商品消息发送异常，商品id：{}", type, id, e);
         }
     }
 }
