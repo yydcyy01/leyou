@@ -9,6 +9,8 @@
         <module name="leyou-item-interface" />
         <module name="leyou-upload" />
         <module name="leyou-item-service" />
+        <module name="leyou-user-interface" />
+        <module name="leyou-user-service" />
         <module name="leyou-gateway" />
         <module name="leyou-registry" />
         <module name="leyou-goods-web" />
@@ -18,6 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="leyou-user" target="1.8" />
       <module name="yydcyy-elasticsearch" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -33,6 +36,9 @@
       <module name="leyou-registry" options="-parameters" />
       <module name="leyou-search" options="-parameters" />
       <module name="leyou-upload" options="-parameters" />
+      <module name="leyou-user" options="-parameters" />
+      <module name="leyou-user-interface" options="-parameters" />
+      <module name="leyou-user-service" options="-parameters" />
       <module name="leyougateway" options="-parameters" />
       <module name="yydcyy-elasticsearch" options="-parameters" />
     </option>
