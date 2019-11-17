@@ -1,16 +1,17 @@
 package com.leyou.controller;
 
 import com.leyou.service.UserService;
+import com.leyou.user.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import javax.validation.Valid;
+
+//@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -38,9 +39,24 @@ public class UserController {
     @PostMapping("code")
     public ResponseEntity<Void> sendVerifyCode(@RequestParam("phone") String phone){
         Boolean result=this.userService.sendVerifyCode(phone);
-        if(result==null||!result){
+        if(result == null||!result){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);//202，请求被接受
+    }
+
+    /**
+     * 保存注册信息
+     * post /register
+     */
+    @PostMapping("register")
+    public ResponseEntity<Void> register(@Valid User user, @RequestParam("code")String code){
+        Boolean result=this.userService.register(user,code);
+        if(result == null){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }else if(!result){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);//201，创建成功
     }
 }

@@ -1,5 +1,6 @@
 package com.leyou.service;
 
+import com.leyou.common.utils.CodecUtils;
 import com.leyou.common.utils.NumberUtils;
 import com.leyou.mapper.UserMapper;
 import com.leyou.user.pojo.User;
@@ -55,12 +56,13 @@ public class UserService {
     public Boolean sendVerifyCode(String phone) {
         //生成验证码
         String code = NumberUtils.generateCode(5);
+        System.out.println("UserService.sendVerifyCode    code :: " + code);
         try {
             //发送消息通知 发验证码短信
             Map<String, String> msg = new HashMap<>();
             msg.put("phone",phone);
             msg.put("code",code);
-            amqpTemplate.convertAndSend("ly.sms.exchange","sms.verify.code",msg);
+            amqpTemplate.convertAndSend("leyou.sms.exchange", "sms.verify.code", msg);
             //将验证码存入redis,设置失效时间
             redisTemplate.opsForValue().set(CODE_PRIFIX+phone,code,5, TimeUnit.MINUTES);
             return true;
@@ -69,6 +71,34 @@ public class UserService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Boolean register(User user, String code) {
+
+        // 校验短信验证码
+        String cacheCode = this.redisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
+        if (!StringUtils.equals(code, cacheCode)) {
+            return false;
+        }
+
+        // 生成盐
+        String salt = CodecUtils.generateSalt();
+        user.setSalt(salt);
+
+        // 对密码加密
+        user.setPassword(CodecUtils.md5Hex(user.getPassword(), salt));
+
+        // 强制设置不能指定的参数为null
+        user.setId(null);
+        user.setCreated(new Date());
+        // 添加到数据库
+        boolean b = this.userMapper.insertSelective(user) == 1;
+
+        if(b){
+            // 注册成功，删除redis中的记录
+            this.redisTemplate.delete(KEY_PREFIX + user.getPhone());
+        }
+        return b;
     }
 }
 

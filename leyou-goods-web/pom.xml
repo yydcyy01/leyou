@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.leyou.goods</groupId>
+    <groupId>com.leyou.service</groupId>
     <artifactId>leyou-goods-web</artifactId>
 <!--
     引入依赖
@@ -51,12 +51,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>com.leyou.search</groupId>
             <artifactId>leyou-search</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
 </project>
