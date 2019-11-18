@@ -20,6 +20,7 @@
         <module>leyou-user</module>
         <module>leyou-sms-service</module>
         <module>leyou-sms-service</module>
+        <module>leyou-auth</module>
     </modules>
 
     <name>leyou</name>

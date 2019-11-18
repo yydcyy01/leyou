@@ -30,6 +30,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
+<!-- 这里我们使用了一个工具类，CookieUtils，可以在课前资料中找到，我们把它添加到`leyou-common`中，然后引入servlet相关依赖即可&lt;!&ndash;&ndash;&gt;
+-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

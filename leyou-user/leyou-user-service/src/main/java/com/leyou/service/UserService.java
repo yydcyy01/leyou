@@ -1,9 +1,10 @@
 package com.leyou.service;
 
-import com.leyou.common.utils.CodecUtils;
 import com.leyou.common.utils.NumberUtils;
 import com.leyou.mapper.UserMapper;
 import com.leyou.user.pojo.User;
+import com.leyou.utils.CodecUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -76,7 +78,7 @@ public class UserService {
     public Boolean register(User user, String code) {
 
         // 校验短信验证码
-        String cacheCode = this.redisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
+        String cacheCode = this.redisTemplate.opsForValue().get(CODE_PRIFIX + user.getPhone());
         if (!StringUtils.equals(code, cacheCode)) {
             return false;
         }
@@ -92,13 +94,32 @@ public class UserService {
         user.setId(null);
         user.setCreated(new Date());
         // 添加到数据库
-        boolean b = this.userMapper.insertSelective(user) == 1;
+        boolean bool = this.userMapper.insertSelective(user) == 1;
 
-        if(b){
+        if(bool){
             // 注册成功，删除redis中的记录
-            this.redisTemplate.delete(KEY_PREFIX + user.getPhone());
+            this.redisTemplate.delete(CODE_PRIFIX + user.getPhone());
         }
-        return b;
+        return bool;
+    }
+
+    public User login(String username, String password) {
+        if(StringUtils.isBlank(password)||StringUtils.isBlank(username)){
+            return null;
+        }
+        User queryUser = new User();
+        queryUser.setUsername(username);
+        // 由用户名查询 slat
+        User storeUser = this.userMapper.selectOne(queryUser);
+        if(storeUser==null){
+            return null;
+        }
+        String salt = storeUser.getSalt();
+        if(!storeUser.getPassword().equals(CodecUtils.md5Hex(password, salt))) {
+            // 不等, 返回 null
+            return null;
+        }
+        return storeUser;
     }
 }
 

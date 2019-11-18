@@ -51,6 +51,7 @@ public class UserController {
      */
     @PostMapping("register")
     public ResponseEntity<Void> register(@Valid User user, @RequestParam("code")String code){
+        //在controller中改造register方法  [ 使用 Hibernate Validator ]  ，只需要给User添加 @Valid注解即可。
         Boolean result=this.userService.register(user,code);
         if(result == null){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -58,5 +59,21 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);//201，创建成功
+    }
+
+    /**
+     * 对用户名和密码进行验证
+     * 登录操作
+     * @param username
+     * @param password
+     * @return
+     */
+    @GetMapping("query")
+    public ResponseEntity<User> login(@RequestParam("username")String username,@RequestParam("password")String password){
+        User user=this.userService.login(username,password);
+        if(user==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//400,表示用户名或密码错误
+        }
+        return ResponseEntity.ok(user);
     }
 }
