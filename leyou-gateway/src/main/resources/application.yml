@@ -16,5 +16,21 @@ zuul:
     search-service: /search/** # 搜索微服务
     user-service: /user/** # 用户微服务
     auth-service: /auth/** # 授权中心微服务
-  add-host-header: true   # 携带头信息, 解决跨域没有 cookie 问题
+  add-host-header: true   # 携带请求本身的头信息, 解决跨域没有 cookie 问题
+  sensitive-headers: # 覆盖默认敏感头信息
+
   ignored-services: upload-service
+
+leyou:
+  jwt:
+    pubKeyPath: /Users/yuyang/Downloads/JavaWeb/Test/rsa.pub # 公钥地址
+    cookieName: LY_TOKEN
+# 网关中临时的白名单
+  filter:
+    allowPaths:
+      - /api/auth
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item

@@ -40,11 +40,11 @@ public class BrandServiceImpl implements IBrandService {
         // 添加分页条件
         PageHelper.startPage(page, rows);
 
-        System.out.println("desc : " + desc);
+       // System.out.println("desc : " + desc);
         // 添加排序条件
         if (StringUtils.isNotBlank(sortBy))
             example.setOrderByClause(sortBy + " " + (desc ? "desc" : "asc"));
-        System.out.println("sortBy: " + sortBy);
+       // System.out.println("sortBy: " + sortBy);
         List<Brand> brands = this.brandMapper.selectByExample(example);
 
         // 包装成pageInfo
