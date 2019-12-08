@@ -34,7 +34,7 @@ public class UploadService {
         @Autowired
         private FastFileStorageClient storageClient;
 
-        private static final List<String> CONTENT_TYPES = Arrays.asList("image/jpeg", "image/gif");
+        private static final List<String> CONTENT_TYPES = Arrays.asList("image/jpeg", "image/gif","image/png");
 
         private static final Logger LOGGER = LoggerFactory.getLogger(UploadService.class);
 
@@ -61,7 +61,7 @@ public class UploadService {
                 // file.transferTo(new File("/Users/yuyang/Downloads/测试/zel.jpg" + originalFilename));
                 String ext = StringUtils.substringAfterLast(originalFilename, ".");
                 StorePath storePath = this.storageClient.uploadFile(file.getInputStream(), file.getSize(), ext, null);
-
+               // System.out.println("UploadService.java : 地址 :: " + storePath.getFullPath());
                 // 生成url地址，返回
                 return "http://image.leyou.com/" + storePath.getFullPath();
             } catch (IOException e) {

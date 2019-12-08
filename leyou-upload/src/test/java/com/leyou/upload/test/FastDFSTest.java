@@ -1,17 +1,17 @@
 package com.leyou.upload.test;
 
-import com.github.tobato.fastdfs.domain.StorePath;
-import com.github.tobato.fastdfs.domain.ThumbImageConfig;
-import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+        import com.github.tobato.fastdfs.domain.StorePath;
+        import com.github.tobato.fastdfs.domain.ThumbImageConfig;
+        import com.github.tobato.fastdfs.service.FastFileStorageClient;
+        import org.junit.Test;
+        import org.junit.runner.RunWith;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.boot.test.context.SpringBootTest;
+        import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+        import java.io.File;
+        import java.io.FileInputStream;
+        import java.io.FileNotFoundException;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

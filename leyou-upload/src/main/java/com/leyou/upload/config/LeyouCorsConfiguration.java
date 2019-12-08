@@ -28,8 +28,8 @@ public class LeyouCorsConfiguration {
         UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
         configSource.registerCorsConfiguration("/**", config);
 
-        System.out.println("config :: " + config);
-        System.out.println("configSource :: " + configSource);
+        //System.out.println("config :: " + config);
+        //System.out.println("configSource :: " + configSource);
         //3.返回新的CorsFilter.
         return new CorsFilter(configSource);
     }
